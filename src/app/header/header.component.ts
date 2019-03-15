@@ -9,7 +9,7 @@ import { AppComponent } from "../app.component";
 export class HeaderComponent implements OnInit {
 
   constructor(public app: AppComponent) {
-    app.showX = false;
+    // app.showX = false;
   }
 
   ngOnInit() {

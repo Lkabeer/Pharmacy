@@ -12,44 +12,42 @@ export class AppComponent {
 
   @ViewChild('updateText') updateText: ElementRef;
 
-  membersRef: AngularFireList<any>;
-  members$: Observable<any[]>;
+  medicineRef: AngularFireList<any>;
+  medicines$: Observable<any[]>;
 
-  newMemberX: string = '';
-  editMemberX: boolean = false;
+  newMedicineX: string = '';
+  editMedicineX: boolean = false;
   editId: number;
 
-  showX: boolean;
-
   constructor(public db: AngularFireDatabase) {
-    this.membersRef = db.list('/messages');
+    this.medicineRef = db.list('/medicines');
     this.loadMembers(false);
   }
 
   addMember(newName: string) {
-    this.membersRef.push({ text: newName });
-    this.newMemberX = '';
+    this.medicineRef.push({ text: newName });
+    this.newMedicineX = '';
   }
 
   editMember(i) {
-    this.editMemberX = true;
+    this.editMedicineX = true;
     this.editId = i;
     setTimeout( () => this.updateText.nativeElement.focus());
   }
 
   updateMember(key: string, newText: string) {
-    this.membersRef.update(key, { text: newText });
-    this.editMemberX = false;
+    this.medicineRef.update(key, { text: newText });
+    this.editMedicineX = false;
   }
 
   deleteMember(key: string) {
     if(confirm('R u sure u wanna delete this?!'))
-      this.membersRef.remove(key);
+      this.medicineRef.remove(key);
   }
 
   loadMembers(filterX) {
     // Use snapshotChanges().map() to store the key
-    this.members$ = this.membersRef.snapshotChanges().pipe(
+    this.medicines$ = this.medicineRef.snapshotChanges().pipe(
       map(changes => {
         //filter Members X-Team 
         changes = (filterX) ?
@@ -62,5 +60,5 @@ export class AppComponent {
       })
     );
   }
-
+  
 }
