@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from "../app.component";
+import { PharmacyService } from "../services/pharmacy.service";
 
 @Component({
   selector: 'app-header',
@@ -8,8 +9,9 @@ import { AppComponent } from "../app.component";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public app: AppComponent) {
-    // app.showX = false;
+  constructor(
+    public app: AppComponent, 
+    public pharmacyService: PharmacyService) {
   }
 
   ngOnInit() {

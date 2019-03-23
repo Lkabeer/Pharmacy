@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireDatabaseModule } from "@angular/fire/database";
@@ -33,6 +36,8 @@ export const firebaseConfig = {
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
+    ScrollToModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule
   ],

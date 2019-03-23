@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { AppComponent } from "../app.component";
 
@@ -9,11 +9,19 @@ import { AppComponent } from "../app.component";
 })
 export class MedicinesComponent implements OnInit {
 
+  @ViewChild('updateText') updateText: ElementRef;
+
   constructor(public app: AppComponent) {
 
   }
 
   ngOnInit() {
+  }
+
+  editMember(i) {
+    this.app.editMedicineX = true;
+    this.app.editId = i;
+    setTimeout(() => this.updateText.nativeElement.focus());
   }
 
 }

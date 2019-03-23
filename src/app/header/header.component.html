@@ -15,7 +15,7 @@
           <a class="nav-link" routerLink="">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="services">Our Services</a>
+          <a class="nav-link" (click)="pharmacyService.triggerScrollTo()">Our Services</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="medicines">All medicines</a>
@@ -33,6 +33,6 @@
     <h1 class="col-sm-12 text-center">Find A Medicine!</h1>
     <input #filterX (keyup)="app.loadMembers(filterX.value)" type="text" class="col-sm-8 col-md-5" id="filterX"
       placeholder="enter name medicine...">
-    <input class="search col-sm-3 col-md-2" type="submit" value="search">
+    <input class="search col-sm-3 col-md-2" (click)="app.loadMembers(filterX.value)" type="submit" value="search">
   </article>
 </header>

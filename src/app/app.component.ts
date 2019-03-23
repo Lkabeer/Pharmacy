@@ -1,5 +1,6 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,8 +11,6 @@ import { map } from 'rxjs/operators';
 })
 export class AppComponent {
 
-  @ViewChild('updateText') updateText: ElementRef;
-
   medicineRef: AngularFireList<any>;
   medicines$: Observable<any[]>;
 
@@ -19,7 +18,7 @@ export class AppComponent {
   editMedicineX: boolean = false;
   editId: number;
 
-  constructor(public db: AngularFireDatabase) {
+  constructor(public db: AngularFireDatabase, private router: Router) {
     this.medicineRef = db.list('/medicines');
     this.loadMembers(false);
   }
@@ -29,11 +28,11 @@ export class AppComponent {
     this.newMedicineX = '';
   }
 
-  editMember(i) {
-    this.editMedicineX = true;
-    this.editId = i;
-    setTimeout( () => this.updateText.nativeElement.focus());
-  }
+  // editMember(i) {
+  //   this.editMedicineX = true;
+  //   this.editId = i;
+  //   setTimeout( () => this.updateText.nativeElement.focus());
+  // }
 
   updateMember(key: string, newText: string) {
     this.medicineRef.update(key, { text: newText });
@@ -46,6 +45,7 @@ export class AppComponent {
   }
 
   loadMembers(filterX) {
+    this.router.navigateByUrl('medicines');
     // Use snapshotChanges().map() to store the key
     this.medicines$ = this.medicineRef.snapshotChanges().pipe(
       map(changes => {
@@ -60,5 +60,4 @@ export class AppComponent {
       })
     );
   }
-  
 }
