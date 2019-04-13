@@ -7,6 +7,9 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireDatabaseModule } from "@angular/fire/database";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+
+import { AuthService } from "./services/auth.service";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +17,7 @@ import { MedicinesComponent } from './medicines/medicines.component';
 import { ServicesComponent } from './services/services.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
+import { SigninComponent } from './signin/signin.component';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDAUT1VrYuEpw7ZqLhDMp4lBXXX1j_NYYo",
@@ -30,7 +34,8 @@ export const firebaseConfig = {
     MedicinesComponent,
     ServicesComponent,
     HomeComponent,
-    HeaderComponent
+    HeaderComponent,
+    SigninComponent
   ],
   imports: [
     BrowserModule,
@@ -39,9 +44,10 @@ export const firebaseConfig = {
     HttpClientModule,
     ScrollToModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

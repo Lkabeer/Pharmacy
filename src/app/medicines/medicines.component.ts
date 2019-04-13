@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AuthService } from "../services/auth.service";
 
 import { AppComponent } from "../app.component";
 
@@ -11,8 +12,10 @@ export class MedicinesComponent implements OnInit {
 
   @ViewChild('updateText') updateText: ElementRef;
 
-  constructor(public app: AppComponent) {
-
+  constructor(
+    public app: AppComponent,
+    public authService: AuthService) {
+      authService.showX = true;
   }
 
   ngOnInit() {

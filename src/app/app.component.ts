@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { AuthService } from "./services/auth.service";
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -18,7 +19,10 @@ export class AppComponent {
   editMedicineX: boolean = false;
   editId: number;
 
-  constructor(public db: AngularFireDatabase, private router: Router) {
+  constructor(
+    public authService: AuthService,
+    public db: AngularFireDatabase, 
+    private router: Router) {
     this.medicineRef = db.list('/medicines');
     this.loadMembers(false);
   }
@@ -45,7 +49,6 @@ export class AppComponent {
   }
 
   loadMembers(filterX) {
-    this.router.navigateByUrl('medicines');
     // Use snapshotChanges().map() to store the key
     this.medicines$ = this.medicineRef.snapshotChanges().pipe(
       map(changes => {
@@ -59,5 +62,16 @@ export class AppComponent {
         return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
       })
     );
+  }
+
+  filterGlobal(filterX) {
+    this.router.navigate(['medicines']);
+    this.loadMembers(filterX);
+  }
+
+  searchGlobal(filterX) {
+    this.router.navigate(['medicines']);
+    this.loadMembers(filterX);
+    this.authService.filterX = '';
   }
 }

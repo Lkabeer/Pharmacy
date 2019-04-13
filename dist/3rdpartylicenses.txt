@@ -34,6 +34,9 @@ Apache-2.0
 @firebase/util
 Apache-2.0
 
+@nicky-lenaers/ngx-scroll-to
+MIT
+
 firebase/app
 
 firebase/database
