@@ -13,23 +13,38 @@ import { map } from 'rxjs/operators';
 export class AppComponent {
 
   medicineRef: AngularFireList<any>;
+  cartRef: AngularFireList<any>;
   medicines$: Observable<any[]>;
+  cart$: Observable<any[]>;
 
   newMedicineX: string = '';
+  newMedicineDesc: string = '';
+  newMedicineQuantity: number;
   editMedicineX: boolean = false;
   editId: number;
 
   constructor(
     public authService: AuthService,
-    public db: AngularFireDatabase, 
+    public db: AngularFireDatabase,
     private router: Router) {
     this.medicineRef = db.list('/medicines');
+    this.cartRef = db.list('/cart');
     this.loadMembers(false);
   }
 
-  addMember(newName: string) {
-    this.medicineRef.push({ text: newName });
+  addMember(newName: string, newDesc: string, newQuantity: number) {
+    this.medicineRef.push({
+      text: newName,
+      desc: newDesc,
+      quantity: newQuantity
+    });
     this.newMedicineX = '';
+    this.newMedicineDesc = '';
+    this.newMedicineQuantity = 0;
+  }
+
+  addToCart(medicine: object) {
+    this.cartRef.push(medicine);
   }
 
   // editMember(i) {
@@ -38,13 +53,16 @@ export class AppComponent {
   //   setTimeout( () => this.updateText.nativeElement.focus());
   // }
 
-  updateMember(key: string, newText: string) {
-    this.medicineRef.update(key, { text: newText });
+  updateMember(key: string, newText: string, newDesc: string) {
+    this.medicineRef.update(key, {
+      text: newText,
+      desc: newDesc
+    });
     this.editMedicineX = false;
   }
 
   deleteMember(key: string) {
-    if(confirm('R u sure u wanna delete this?!'))
+    if (confirm('R u sure u wanna delete this?!'))
       this.medicineRef.remove(key);
   }
 
@@ -58,6 +76,14 @@ export class AppComponent {
           changes;
         // Sort Alphabetical X-Team
         changes = changes.sort((a, b) => a.payload.val().text.toLowerCase() < b.payload.val().text.toLowerCase() ? -1 : 1);
+        // key and value X-Team
+        return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+      })
+    );
+
+    // Use snapshotChanges().map() to store the key
+    this.cart$ = this.cartRef.snapshotChanges().pipe(
+      map(changes => {
         // key and value X-Team
         return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
       })
